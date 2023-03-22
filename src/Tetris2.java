@@ -20,7 +20,10 @@ public class Tetris2 {
         this.ga = new GameArea(bounds, columns);                                 //new GameArea
         window.getContentPane().add(ga, BorderLayout.CENTER);     //is added to main window
         window.getContentPane().setLayout(null);                  //enabling manual dimentions
-
+        startGame();
+    }
+    public void startGame(){
+        new GameThread(ga).start();
     }
 
     public static void main(String[] args) {
@@ -36,6 +39,4 @@ public class Tetris2 {
             }
         });
     }
-
-
 }

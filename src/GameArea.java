@@ -20,11 +20,16 @@ public class GameArea extends JPanel {
         gridRows = this.getBounds().height/gridCellSize;
         spawnBlock();                                       //initialize block
     }
-    //next function isn't necessary, but it encapsulates initialization procedure, make it more human readable
+    //next function isn't necessary, but it encapsulates initialization procedure, make it more human-readable
     private void spawnBlock(){          //initializes block object in memory and assign it to variable block. No drawing
         block = new TetrisBlock(new boolean[][]{{true, true}, {true, false}, {true, false}}, Color.ORANGE);
+        block.spawn(gridColumns);
     }
-    @Override
+    public void moveBlockDown(){
+        block.moveDown();
+        repaint();                 //calls paintComponent internally
+    }
+    @Override                                 //overrides drawing method, which we do not call ourselves
     public void paintComponent(Graphics g){
         super.paintComponent(g);    //we need to call super in order to draw background for some reason
         g.setColor(Color.gray);
