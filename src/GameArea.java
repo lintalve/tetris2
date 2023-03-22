@@ -7,4 +7,9 @@ public class GameArea extends JPanel {
         this.setBackground(Color.CYAN);
 
     }
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.fillRect(0, 0, 50, 50);
+    }
 }

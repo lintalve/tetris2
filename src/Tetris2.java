@@ -7,10 +7,10 @@ public class Tetris2 {
 
     public Tetris2(){
         final int Width = 600;
-        final int Height = 1000;
+        final int Height = 800;
 
         window = new JFrame();
-        window.setBounds(400, 200, Width + 350, Height);  // setting dimentions for main window
+        window.setBounds(400, 200, Width, Height);  // setting dimentions for main window
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.ga = new GameArea();                                 //new GameArea
