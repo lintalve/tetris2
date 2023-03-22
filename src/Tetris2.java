@@ -9,12 +9,12 @@ public class Tetris2 {
 
     public Tetris2(){
         final int mainWidth = 800;
-        final int mainHeight = 800;
+        final int mainHeight = 900;
         final int gaWidth = 600;
         final int columns = 10;
         Rectangle bounds = new Rectangle(mainWidth/2 - gaWidth/2, 0, gaWidth, mainHeight);
         window = new JFrame();
-        window.setBounds(400, 200, mainWidth, mainHeight);  // setting dimentions for main window
+        window.setBounds(400, 200, mainWidth, mainHeight + 30);  // setting dimentions for main window
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.ga = new GameArea(bounds, columns);                                 //new GameArea
