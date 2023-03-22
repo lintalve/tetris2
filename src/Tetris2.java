@@ -1,19 +1,23 @@
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Rectangle;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
 public class Tetris2 {
     JFrame window;
     GameArea ga;
 
     public Tetris2(){
-        final int Width = 600;
-        final int Height = 800;
-
+        final int mainWidth = 800;
+        final int mainHeight = 800;
+        final int gaWidth = 600;
+        final int columns = 10;
+        Rectangle bounds = new Rectangle(mainWidth/2 - gaWidth/2, 0, gaWidth, mainHeight);
         window = new JFrame();
-        window.setBounds(400, 200, Width, Height);  // setting dimentions for main window
+        window.setBounds(400, 200, mainWidth, mainHeight);  // setting dimentions for main window
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.ga = new GameArea();                                 //new GameArea
+        this.ga = new GameArea(bounds, columns);                                 //new GameArea
         window.getContentPane().add(ga, BorderLayout.CENTER);     //is added to main window
         window.getContentPane().setLayout(null);                  //enabling manual dimentions
 
