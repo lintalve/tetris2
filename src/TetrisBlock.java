@@ -24,5 +24,6 @@ public class TetrisBlock {
     public void moveDown(){y++;}
     public void moveLeft(){x--;}
     public void moveRight(){x++;}
+    public int getBottomEdge(){return getY() + getHeight();}
 
 }

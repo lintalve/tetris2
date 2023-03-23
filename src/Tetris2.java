@@ -23,7 +23,7 @@ public class Tetris2 {
         startGame();
     }
     public void startGame(){
-        new GameThread(ga).start();
+        new GameThread(ga).start();      //the Thread is in memory, doing its thing
     }
 
     public static void main(String[] args) {
