@@ -18,7 +18,8 @@ public class GameArea extends JPanel {
             new Color(246, 201, 69),};
     private Random rand;
     TetrisBlock block;
-    private Color[][] background;
+    //private Color[][] background;
+    Background background;
     public GameArea(Rectangle bounds, int columns){
         this.setBounds(bounds);
         this.setBackground(Color.lightGray);
@@ -27,8 +28,8 @@ public class GameArea extends JPanel {
         gridColumns = columns;                              // we do not use this. because names are different
         gridCellSize = this.getBounds().width/columns;      // looks like this is enough reason
         gridRows = this.getBounds().height/gridCellSize;
-        background = new Color[gridRows][gridColumns];      //Ref type, instantiated with 'null'
-        //spawnBlock();                                       //initialize block
+        background = new Background(gridRows, gridColumns);      //Ref type, instantiated with 'null'
+        spawnBlock();                                       //initialize block
         //background[2][3] = colors[rand.nextInt(colors.length)];
     }
     //next function isn't necessary, but it encapsulates initialization procedure, make it more human-readable
@@ -36,6 +37,7 @@ public class GameArea extends JPanel {
         rand = new Random();
         block = new TetrisBlock(new boolean[][]{{true, true}, {true, false}, {true, false}}, colors[rand.nextInt(colors.length)]);
         block.spawn(gridColumns);
+        repaint();
     }
     public boolean moveBlockDown(){
         if(atBottom()){
@@ -45,6 +47,26 @@ public class GameArea extends JPanel {
         block.moveDown();
         repaint();                 //calls paintComponent internally
         return true;
+    }
+    public void moveBlockRight(){
+        block.moveRight();
+        repaint();
+    }
+    public void moveBlockLeft(){
+        block.moveLeft();
+        repaint();
+    }
+    public void rotateBlock(){
+        if(!atBottom()) {
+            block.rotate();
+            repaint();
+        }
+    }
+    public void dropBlockDown(){
+        while(!atBottom()){
+            block.moveDown();
+            repaint();
+        }
     }
     public boolean atBottom(){
         if(block.getBottomEdge() == gridRows){
@@ -62,33 +84,43 @@ public class GameArea extends JPanel {
                 g.drawRect(col * gridCellSize, row * gridCellSize, gridCellSize, gridCellSize);
             }
         }
-        drawBackground(g);
+        drawBackground(g);    //
         drawBlock(g);
     }
     public void drawBackground(Graphics g){
         for(int r=0; r<gridRows; r++){
             for(int c=0; c<gridColumns; c++) {             //then manipulation
-                if(background[r][c] != null){                //actually drawing a block
+                if(background.getbgfield()[r][c] != null){                //actually drawing a block
                     int x = c * gridCellSize;          //calculating coordinate for each cell by multiplying simple int by grid cell size
                     int y = r * gridCellSize;
-                    Color color = background[r][c];
+                    Color color = background.getbgfield()[r][c];
                     drawGridSquare(g, color, x, y);
                 }
             }
         }
     }
     public void moveBlockToBackground(){
-        boolean[][] shape = block.getShape();
-        Color color = block.getColor();
-        int x = block.getX();
-        int y = block.getY();
-        for(int r=0; r < block.getHeight(); r++){
-            for(int c=0; c < block.getWidth(); c++){
-                if(shape[r][c]){
-                    background[y + r][x + c] = color;
-                }
-            }
-        }
+        background.absorbBLock(block);
+    }
+    public boolean checkCompleteLines(){
+        background.setCompleteLines();
+        return background.getCompleteLines().length > 0;
+    }
+    public void makeCompleteLinesLighter(){
+        System.out.println("making lighter");
+        background.makeLinesLighter(background.getCompleteLines());
+        repaint();
+    }
+    public void makeCompleteLinesDarker(){
+        System.out.println("making darker");
+        background.makeLinesDarker(background.getCompleteLines());
+        repaint();
+
+    }
+    public void removeCompleteLines(){
+        background.removeLines(background.getCompleteLines());
+        background.resetCompleteLines();
+        repaint();
     }
     public void drawGridSquare(Graphics g, Color color, int x, int y){
         g.setColor(color);

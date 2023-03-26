@@ -1,7 +1,8 @@
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.Rectangle;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 
 public class Tetris2 {
     JFrame window;
@@ -20,8 +21,51 @@ public class Tetris2 {
         this.ga = new GameArea(bounds, columns);                                 //new GameArea
         window.getContentPane().add(ga, BorderLayout.CENTER);     //is added to main window
         window.getContentPane().setLayout(null);                  //enabling manual dimentions
+        initControls();
         startGame();
     }
+    public void initControls(){
+        InputMap im = window.getRootPane().getInputMap();
+        ActionMap am = window.getRootPane().getActionMap();
+
+        im.put(KeyStroke.getKeyStroke("RIGHT"), "right");
+        im.put(KeyStroke.getKeyStroke("LEFT"), "left");
+        im.put(KeyStroke.getKeyStroke("UP"), "up");
+        im.put(KeyStroke.getKeyStroke("DOWN"), "down");
+
+        am.put("right", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("right");
+                ga.moveBlockRight();
+            }
+        });
+
+        am.put("left", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("left");
+                ga.moveBlockLeft();
+            }
+        });
+
+        am.put("up", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("up");
+                ga.rotateBlock();
+            }
+        });
+
+        am.put("down", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("down");
+                ga.dropBlockDown();
+            }
+        });
+    }
+
     public void startGame(){
         new GameThread(ga).start();      //the Thread is in memory, doing its thing
     }
