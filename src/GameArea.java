@@ -104,21 +104,24 @@ public class GameArea extends JPanel {
     }
     public boolean checkCompleteLines(){
         background.setCompleteLines();
-        return background.getCompleteLines().length > 0;
+        System.out.println(background.getCompleteLines().size() + " is the number of lines");
+        for(int line=0; line < background.getCompleteLines().size(); line++)
+            System.out.print(line + " ");
+        return background.getCompleteLines().size() > 0;
     }
     public void makeCompleteLinesLighter(){
         System.out.println("making lighter");
-        background.makeLinesLighter(background.getCompleteLines());
+        background.makeLinesLighter();
         repaint();
     }
     public void makeCompleteLinesDarker(){
         System.out.println("making darker");
-        background.makeLinesDarker(background.getCompleteLines());
+        background.makeLinesDarker();
         repaint();
 
     }
     public void removeCompleteLines(){
-        background.removeLines(background.getCompleteLines());
+        background.removeLines();
         background.resetCompleteLines();
         repaint();
     }
