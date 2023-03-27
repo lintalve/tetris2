@@ -35,7 +35,7 @@ public class GameArea extends JPanel {
     //next function isn't necessary, but it encapsulates initialization procedure, make it more human-readable
     public void spawnBlock(){          //initializes block object in memory and assign it to variable block. No drawing
         rand = new Random();
-        block = new TetrisBlock(new boolean[][]{{true, true}, {true, false}, {true, false}}, colors[rand.nextInt(colors.length)]);
+        block = new TetrisBlock(rand.nextInt(6), colors[rand.nextInt(colors.length)]);
         block.spawn(gridColumns);
         repaint();
     }
@@ -49,12 +49,16 @@ public class GameArea extends JPanel {
         return true;
     }
     public void moveBlockRight(){
-        block.moveRight();
-        repaint();
+        if(!atRightLimit()) {
+            block.moveRight();
+            repaint();
+        }
     }
     public void moveBlockLeft(){
-        block.moveLeft();
-        repaint();
+        if(!atLeftLimit()) {
+            block.moveLeft();
+            repaint();
+        }
     }
     public void rotateBlock(){
         if(!atBottom()) {
@@ -70,6 +74,18 @@ public class GameArea extends JPanel {
     }
     public boolean atBottom(){
         if(block.getBottomEdge() == gridRows){
+            return true;
+        }
+        return false;
+    }
+    public boolean atRightLimit(){
+        if(block.getRightEdge() == gridColumns){
+            return true;
+        }
+        return false;
+    }
+    public boolean atLeftLimit(){
+        if(block.getLeftEdge() == 0){
             return true;
         }
         return false;

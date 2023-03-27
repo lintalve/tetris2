@@ -5,9 +5,14 @@ public class TetrisBlock {
     private Color color;
     private int x;
     private int y;
-    private boolean[][][] shapes;
-    public TetrisBlock(boolean[][] shape, Color color){
-        this.shape = shape;
+    private final boolean[][][] shapes = {{{true, true}, {true, false}, {true, false}},
+                                        {{true, false}, {true, false}, {true, true}},
+                                          {{true, false}, {true, true}, {true, false}},
+                                        {{false, true}, {true, true}, {false, true}},
+                                        {{true, true, true, true}},
+                                        {{true, false}, {true, true}, {false, true}}};
+    public TetrisBlock(int shape, Color color){
+        this.shape = shapes[shape];
         this.color = color;
         //this.x = 2;
         //this.y = 3;
@@ -44,5 +49,10 @@ public class TetrisBlock {
     public void removeBlock(){
         //shape = new boolean[][];
     }
-
+    public int getRightEdge(){
+        return getX() + getWidth();
+    }
+    public int getLeftEdge(){
+        return getX();
+    }
 }
