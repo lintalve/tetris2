@@ -39,8 +39,8 @@ public class GameArea extends JPanel {
         block.spawn(gridColumns);
         repaint();
     }
-    public boolean moveBlockDown(){
-        if(atBottom()){
+    public boolean moveBlockDown() {
+        if (atBottom() || !nothingBelow()) {
             moveBlockToBackground();  //in memory
             return false;
         }
@@ -49,25 +49,25 @@ public class GameArea extends JPanel {
         return true;
     }
     public void moveBlockRight(){
-        if(!atRightLimit()) {
+        if(!atRightLimit() && nothingRight()) {
             block.moveRight();
             repaint();
         }
     }
     public void moveBlockLeft(){
-        if(!atLeftLimit()) {
+        if(!atLeftLimit() && nothingLeft()) {
             block.moveLeft();
             repaint();
         }
     }
     public void rotateBlock(){
-        if(!atBottom()) {
+        if(!atBottom() && canRotate()) {
             block.rotate();
             repaint();
         }
     }
     public void dropBlockDown(){
-        while(!atBottom()){
+        while(!atBottom() && nothingBelow()){
             block.moveDown();
             repaint();
         }
@@ -77,6 +77,57 @@ public class GameArea extends JPanel {
             return true;
         }
         return false;
+    }
+    public boolean canRotate(){
+        boolean[][] rotShape= block.getRotatedShape();
+        for(int i=0; i<rotShape.length; i++){
+            for(int j=0; j<rotShape[0].length; j++){
+                int x = block.getX() + j;
+                int y = block.getY() + i;
+                if(background.getbgfield()[y][x] != null || x > (gridColumns-1) || y > (gridRows - 1)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean nothingLeft(){
+        for(int i=0; i<block.getHeight(); i++){
+            for(int j=0; j<block.getWidth(); j++){
+                int x = block.getX() + j;
+                int y = block.getY() + i;
+                if(background.getbgfield()[y][x-1] != null && block.getShape()[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean nothingRight(){
+        for(int i=0; i<block.getHeight(); i++){
+            for(int j=0; j<block.getWidth(); j++){
+                int x = block.getX() + j;
+                int y = block.getY() + i;
+                if(background.getbgfield()[y][x+1] != null && block.getShape()[i][j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean nothingBelow(){
+        for(int i=0; i<block.getHeight(); i++){
+            for(int j=0; j<block.getWidth(); j++){
+                int x = block.getX() + j;
+                int y = block.getY() + i;
+                if(y<0){
+                    return true;
+                } else if(block.getShape()[i][j] && background.getbgfield()[y+1][x] != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     public boolean atRightLimit(){
         if(block.getRightEdge() == gridColumns){

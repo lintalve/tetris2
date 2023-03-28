@@ -65,7 +65,12 @@ public class Background {
     public Color[][] getbgfield() {
         return bgfield;
     }
-
+    public int getRows(){
+        return rows;
+    }
+    public int getColumns(){
+        return columns;
+    }
     public void removeLines() {
         System.out.println("removing lines");
         for (int i = 0; i < completeLines.size(); i++) {

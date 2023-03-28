@@ -11,6 +11,7 @@ public class TetrisBlock {
                                         {{false, true}, {true, true}, {false, true}},
                                         {{true, true, true, true}},
                                         {{true, false}, {true, true}, {false, true}}};
+    public boolean[][] rotatedShape;
     public TetrisBlock(int shape, Color color){
         this.shape = shapes[shape];
         this.color = color;
@@ -44,6 +45,15 @@ public class TetrisBlock {
             }
         }
 
+    }
+    public boolean[][] getRotatedShape(){
+        rotatedShape = new boolean[shape[0].length][shape.length];
+        for(int r=0; r<shape.length; r++){
+            for(int c=0; c<shape[0].length; c++){
+                rotatedShape[c][r] = shape[r][(shape[0].length-1)-c];
+            }
+        }
+        return rotatedShape;
     }
     public int getBottomEdge(){return getY() + getHeight();}
     public void removeBlock(){
